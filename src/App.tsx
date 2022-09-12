@@ -1,10 +1,15 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import ClientForm from "./components/ClientForm";
 
 import "./App.css";
 
 const Home = () => {
-  return <h1>Home</h1>;
+  return (
+    <div>
+      <h1>Home</h1>
+      <Link to="/client">Client service</Link>
+    </div>
+  );
 };
 
 function App() {
