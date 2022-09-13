@@ -1,20 +1,15 @@
 import React from "react";
-import { Button } from "@mui/material";
-import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { v4 as uuid } from "uuid";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { createClient, editClient } from "../featured/client/clientSlice";
+import { Client } from "../types/client";
+
 import Container from "@mui/material/Container";
+import { Button, Stack } from "@mui/material";
+
 import { Form, Input } from "../styles";
-
-type Client = {
-  fiscalNumber: string;
-  id?: string;
-  incomingDate: string;
-  name: string;
-};
-
 const ClientForm = () => {
   const params = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -25,6 +20,7 @@ const ClientForm = () => {
     fiscalNumber: "",
     incomingDate: "",
     name: "",
+    id: "",
   });
 
   React.useEffect(() => {
@@ -49,9 +45,13 @@ const ClientForm = () => {
     setClient({ ...client, [e.target.name]: e.target.value });
   };
 
+  const handleBackNavigation = () => {
+    navigate(-1);
+  };
+
   return (
     <Container>
-      <h2>Client Form</h2>
+      <h1>Client Form</h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           type="text"
@@ -80,9 +80,18 @@ const ClientForm = () => {
           value={client.incomingDate}
           onChange={handleOnChange}
         />
-        <Button variant="outlined" type="submit">
-          {params.id ? "Update client" : "Create client"}
-        </Button>
+        <Stack direction="column" spacing={2}>
+          <Button variant="outlined" type="submit">
+            {params.id ? "Update client" : "Create client"}
+          </Button>
+          <Button
+            variant="outlined"
+            type="submit"
+            onClick={handleBackNavigation}
+          >
+            Go back
+          </Button>
+        </Stack>
       </Form>
     </Container>
   );

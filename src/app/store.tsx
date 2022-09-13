@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import clientSlice from "../featured/client/clientSlice";
+import serviceSlice from "../featured/service/serviceSlice";
 
 export const store = configureStore({
   reducer: {
     client: clientSlice,
+    service: serviceSlice,
   },
 });
 

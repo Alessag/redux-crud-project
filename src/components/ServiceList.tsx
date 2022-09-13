@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { deleteClient } from "../featured/client/clientSlice";
+import { deleteService } from "../featured/service/serviceSlice";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,35 +15,32 @@ import Button from "@mui/material/Button";
 
 import { Container, Input } from "../styles";
 
-const ClientList = () => {
-  const clients = useAppSelector((state) => state.client);
+const ServiceList = () => {
+  const services = useAppSelector((state) => state.service);
   const dispatch = useAppDispatch();
-  const [filteredClients, setFilteredClients] = React.useState(clients);
+  const [filteredClients, setFilteredClients] = React.useState(services);
 
   React.useEffect(() => {
-    setFilteredClients(clients);
-  }, [clients]);
+    setFilteredClients(services);
+  }, [services]);
 
   const handleDelete = (id: string) => {
-    dispatch(deleteClient(id));
+    dispatch(deleteService(id));
   };
 
   const handleOnSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const filterClients = clients.filter((client) => {
-      return (
-        client.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        client.fiscalNumber.includes(e.target.value)
-      );
+    const filterClients = services.filter((client) => {
+      return client.id.includes(e.target.value);
     });
     setFilteredClients(filterClients);
   };
 
   return (
     <Container>
-      <h1>Client list</h1>
+      <h1>Services list</h1>
       <Stack spacing={2} direction="row">
-        <Link to="/client/create">
-          <Button variant="outlined">Create client</Button>
+        <Link to="/service/create">
+          <Button variant="outlined">Create service</Button>
         </Link>
         <Link to="/">
           <Button variant="outlined">Home</Button>
@@ -61,24 +58,28 @@ const ClientList = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align="right">Fiscal number</TableCell>
-                <TableCell align="right">Incoming date</TableCell>
-                <TableCell align="right">Options</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell align="right">Client id</TableCell>
+                <TableCell align="right">Start date</TableCell>
+                <TableCell align="right">End date</TableCell>
+                <TableCell align="right">Price</TableCell>
+                <TableCell align="right">Actions</TableCell>
                 <TableCell align="right"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filteredClients.map((row) => (
                 <TableRow
-                  key={row.name}
+                  key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {row.title}
                   </TableCell>
-                  <TableCell align="right">{row.fiscalNumber}</TableCell>
-                  <TableCell align="right">{row.incomingDate}</TableCell>
+                  <TableCell align="right">{row.id}</TableCell>
+                  <TableCell align="right">{row.startDate}</TableCell>
+                  <TableCell align="right">{row.endDate}</TableCell>
+                  <TableCell align="right">{row.price}</TableCell>
                   <TableCell align="right">
                     <Button
                       onClick={() => {
@@ -104,10 +105,10 @@ const ClientList = () => {
           </Table>
         </TableContainer>
       ) : (
-        "No clients"
+        "No services"
       )}
     </Container>
   );
 };
 
-export default ClientList;
+export default ServiceList;
