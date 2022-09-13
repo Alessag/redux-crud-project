@@ -1,60 +1,89 @@
-import { Button } from "@mui/material";
 import React from "react";
+import { Button } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
-import { useAppDispatch } from "../app/hooks";
-import { createClient } from "../featured/client/clientSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { createClient, editClient } from "../featured/client/clientSlice";
 import Container from "@mui/material/Container";
+import { Form, Input } from "../styles";
 
 type Client = {
-  name: string;
   fiscalNumber: string;
-  incomingDate: Date;
+  id?: string;
+  incomingDate: string;
+  name: string;
 };
 
 const ClientForm = () => {
+  const params = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const clients = useAppSelector((state) => state.client);
   const { register, handleSubmit } = useForm<Client>();
+  const [client, setClient] = React.useState<Client>({
+    fiscalNumber: "",
+    incomingDate: "",
+    name: "",
+  });
+
+  React.useEffect(() => {
+    if (params.id) {
+      const client = clients.find((client) => client.id === params.id);
+      if (client) {
+        setClient(client);
+      }
+    }
+  }, []);
 
   const onSubmit = (data: Client) => {
-    dispatch(createClient({ ...data, id: uuid() }));
+    if (params.id) {
+      dispatch(editClient(client));
+    } else {
+      dispatch(createClient({ ...data, id: uuid() }));
+    }
     navigate("/client");
+  };
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setClient({ ...client, [e.target.name]: e.target.value });
   };
 
   return (
     <Container>
-      <h3>Client Form</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input
+      <h2>Client Form</h2>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Input
           type="text"
           placeholder="Name"
           {...register("name", {
-            required: true,
+            required: !params.id,
           })}
+          value={client.name}
+          onChange={handleOnChange}
         />
-        <input
+        <Input
           type="text"
           placeholder="Fiscal number"
           {...register("fiscalNumber", {
-            required: true,
+            required: !params.id,
           })}
+          value={client.fiscalNumber}
+          onChange={handleOnChange}
         />
-        <input
+        <Input
           type="date"
           placeholder="Incoming date"
           {...register("incomingDate", {
-            required: true,
+            required: !params.id,
           })}
+          value={client.incomingDate}
+          onChange={handleOnChange}
         />
         <Button variant="outlined" type="submit">
-          Create client
+          {params.id ? "Update client" : "Create client"}
         </Button>
-      </form>
-      <Link to="/">
-        <Button variant="outlined">Home</Button>
-      </Link>
+      </Form>
     </Container>
   );
 };

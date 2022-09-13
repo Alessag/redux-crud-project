@@ -24,6 +24,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="client" element={<ClientList />} />
           <Route path="client/create" element={<ClientForm />} />
+          <Route path="client/edit/:id" element={<ClientForm />} />
         </Routes>
       </BrowserRouter>
     </div>
