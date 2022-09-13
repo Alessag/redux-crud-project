@@ -1,6 +1,6 @@
-export type Client = {
+export type ClientType = {
   fiscalNumber: string;
   id: string;
-  incomingDate: Date;
+  incomingDate: string;
   name: string;
 };

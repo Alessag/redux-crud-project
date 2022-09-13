@@ -1,11 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { ClientType } from "../../types/client";
+const initialState: ClientType[] = [
+  {
+    id: "1",
+    name: "Name 1",
+    fiscalNumber: "123456789",
+    incomingDate: "2022-09-15",
+  },
+  {
+    id: "2",
+    name: "Name 2",
+    fiscalNumber: "123456789",
+    incomingDate: "2022-09-15",
+  },
+];
+
 export const clientSlice = createSlice({
   name: "client",
-  initialState: {},
+  initialState,
   reducers: {
     createClient: (state, action) => {
-      console.log("Create", state, action);
+      state.push(action.payload);
     },
     editClient: (state, action) => {
       console.log("Edit", state, action);

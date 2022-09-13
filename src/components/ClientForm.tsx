@@ -1,5 +1,11 @@
+import { Button } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { v4 as uuid } from "uuid";
+import { useAppDispatch } from "../app/hooks";
+import { createClient } from "../featured/client/clientSlice";
+import Container from "@mui/material/Container";
 
 type Client = {
   name: string;
@@ -8,14 +14,17 @@ type Client = {
 };
 
 const ClientForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm<Client>();
 
   const onSubmit = (data: Client) => {
-    console.log(data);
+    dispatch(createClient({ ...data, id: uuid() }));
+    navigate("/client");
   };
 
   return (
-    <div>
+    <Container>
       <h3>Client Form</h3>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
@@ -39,9 +48,14 @@ const ClientForm = () => {
             required: true,
           })}
         />
-        <button>Create client</button>
+        <Button variant="outlined" type="submit">
+          Create client
+        </Button>
       </form>
-    </div>
+      <Link to="/">
+        <Button variant="outlined">Home</Button>
+      </Link>
+    </Container>
   );
 };
 
