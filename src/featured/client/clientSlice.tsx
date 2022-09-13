@@ -27,7 +27,10 @@ export const clientSlice = createSlice({
       console.log("Edit", state, action);
     },
     deleteClient: (state, action) => {
-      console.log("Delete", state, action);
+      const findIndex = state.findIndex(
+        (client) => client.id === action.payload
+      );
+      state.splice(findIndex, 1);
     },
   },
 });
