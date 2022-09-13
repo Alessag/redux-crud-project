@@ -3,25 +3,25 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { deleteService } from "../featured/service/serviceSlice";
 
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 
 import { Container, Input } from "../styles";
 
 const ServiceList = () => {
   const services = useAppSelector((state) => state.service);
   const dispatch = useAppDispatch();
-  const [filteredClients, setFilteredClients] = React.useState(services);
+  const [filteredServices, setFilteredServices] = React.useState(services);
 
   React.useEffect(() => {
-    setFilteredClients(services);
+    setFilteredServices(services);
   }, [services]);
 
   const handleDelete = (id: string) => {
@@ -29,10 +29,10 @@ const ServiceList = () => {
   };
 
   const handleOnSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const filterClients = services.filter((client) => {
-      return client.id.includes(e.target.value);
+    const filterServices = services.filter((service) => {
+      return service.title.toLowerCase().includes(e.target.value.toLowerCase());
     });
-    setFilteredClients(filterClients);
+    setFilteredServices(filterServices);
   };
 
   return (
@@ -53,7 +53,7 @@ const ServiceList = () => {
         onChange={handleOnSearch}
       />
 
-      {filteredClients.length > 0 ? (
+      {filteredServices.length > 0 ? (
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -68,7 +68,7 @@ const ServiceList = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredClients.map((row) => (
+              {filteredServices.map((row) => (
                 <TableRow
                   key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

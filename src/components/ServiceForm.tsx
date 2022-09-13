@@ -34,7 +34,6 @@ const ServiceForm = () => {
   }, []);
 
   const onSubmit = (data: Service) => {
-    console.log({ data });
     if (params.id) {
       dispatch(editService(service));
     } else {
