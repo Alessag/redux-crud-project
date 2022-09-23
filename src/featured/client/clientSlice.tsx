@@ -4,31 +4,31 @@ import { Client } from "../../types/client";
 const initialState: Client[] = [
   {
     id: "1",
-    name: "Maria jose",
+    name: "Asa Compton",
     fiscalNumber: "123456789",
     incomingDate: "2022-09-15",
   },
   {
     id: "2",
-    name: "David Delgado",
+    name: "Braden Webster",
     fiscalNumber: "123456789",
     incomingDate: "2022-09-15",
   },
   {
     id: "3",
-    name: "Alessandra Amicarella",
+    name: "Marlee Floyd",
     fiscalNumber: "123458879",
     incomingDate: "2022-09-15",
   },
   {
     id: "4",
-    name: "Pepito perez",
+    name: "Jovanny Castaneda",
     fiscalNumber: "12388789",
     incomingDate: "2022-09-15",
   },
   {
     id: "5",
-    name: "Pedro pereziano",
+    name: "Trevor Gibbs",
     fiscalNumber: "123999989",
     incomingDate: "2022-09-15",
   },
